@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Theatre | {{ movie.title }}</title>
+    
+    <!-- Google Fonts: Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-color: #0d0d0f;
+            --text-color: #ffffff;
+            --accent-red: #E50914;
+            --accent-hover: #b8050e;
+            --glass-bg: rgba(20, 20, 25, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Outfit', sans-serif;
+            margin-bottom: 50px;
+        }
+
+        /* Glassmorphic Navbar */
+        .navbar-glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand { font-weight: 800; font-size: 26px; letter-spacing: 1px; color: #fff !important; display: flex; align-items: center; gap: 10px; }
+        .navbar-brand i { color: var(--accent-red); }
+
+        /* Heading */
+        .page-title { font-weight: 800; font-size: 2.5rem; margin-bottom: 5px; }
+        .page-subtitle { color: #aaa; font-size: 1.1rem; font-weight: 300; margin-bottom: 40px; }
+        .text-accent { color: var(--accent-red); }
+
+        /* Theatre Card */
+        .theatre-card {
+            background: #15151a;
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        .theatre-card:hover { border-color: rgba(255,255,255,0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        
+        .theatre-name { font-weight: 600; font-size: 1.4rem; color: #fff; margin-bottom: 5px; }
+        .theatre-location { color: #888; font-size: 0.95rem; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
+
+        /* Showtime Pills */
+        .showtime-pill {
+            background: rgba(229, 9, 20, 0.1);
+            color: var(--accent-red);
+            border: 1px solid rgba(229, 9, 20, 0.3);
+            border-radius: 50px;
+            padding: 10px 22px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        .showtime-pill:hover {
+            background: var(--accent-red);
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(229, 9, 20, 0.4);
+        }
+
+        .btn-back { color: #aaa; text-decoration: none; display: inline-block; margin-bottom: 20px; transition: 0.2s; }
+        .btn-back:hover { color: #fff; transform: translateX(-5px); }
+    </style>
+</head>
+<body>
+
+    <!-- Transparent Navbar -->
+    <nav class="navbar navbar-glass mb-4">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <i class="fa-solid fa-ticket"></i> CineBook
+            </a>
+        </div>
+    </nav>
+
+    <div class="container maxWidth-800">
+        <a href="{% url 'movie_detail' movie.id %}" class="btn-back"><i class="fa-solid fa-arrow-left mt-2"></i> Back to Movie Details</a>
+        
+        <h1 class="page-title">Select Theatre</h1>
+        <p class="page-subtitle">Choose a comfortable theatre nearby to watch <span class="text-accent fw-bold">{{ movie.title }}</span>.</p>
+        
+        {% if theatres_dict %}
+            {% for theatre, shows in theatres_dict.items %}
+            <div class="theatre-card">
+                <h3 class="theatre-name">{{ theatre.name }}</h3>
+                <div class="theatre-location">
+                    <i class="fa-solid fa-location-dot"></i> {{ theatre.location }}
+                </div>
+                
+                <div class="d-flex flex-wrap gap-3 mt-3">
+                    {% for show in shows %}
+                    <a href="{% url 'ticket_quantity' show.id %}" class="showtime-pill">
+                        {{ show.show_time|time:"h:i A" }}
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="alert alert-dark border-secondary text-center py-5 rounded-3">
+                <i class="fa-solid fa-calendar-xmark text-muted mb-3" style="font-size: 3rem;"></i>
+                <h4 class="text-white">No Shows Available</h4>
+                <p class="text-muted mb-0">There are currently no showtimes booked for this movie at any theatre.</p>
+            </div>
+        {% endif %}
+    </div>
+
+</body>
+</html>
