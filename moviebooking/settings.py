@@ -77,11 +77,10 @@ WSGI_APPLICATION = 'moviebooking.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
+import dj_database_url
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'movie_db.sqlite3',
-    }
+    'default': dj_database_url.parse("PASTE_DATABASE_URL_HERE")
 }
 
 # Default primary key field type
