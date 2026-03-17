@@ -28,7 +28,7 @@ SECRET_KEY = config('SECRET_KEY', default='django-insecure-+5#zxn92*4m=d*bbob-&n
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=True, cast=bool)
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['movie-booking-website-qqeq.onrender.com']
 CSRF_TRUSTED_ORIGINS = [
     "https://leon-nongenerical-flabbergastedly.ngrok-free.dev"
 ]
