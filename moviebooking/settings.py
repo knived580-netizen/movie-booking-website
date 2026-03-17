@@ -80,8 +80,12 @@ WSGI_APPLICATION = 'moviebooking.wsgi.application'
 import dj_database_url
 
 DATABASES = {
-    'default': dj_database_url.parse("PASTE_DATABASE_URL_HERE")
+    'default': dj_database_url.parse(
+        "postgresql://movie_user:QUTQlFHL7qqQbw1rcVuQ26GQwx5iMSjd@dpg-d6skhhc50q8c73fl8a10-a/movie_booking_db_ujmk"
+    )
 }
+
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/6.0/ref/settings/#default-auto-field
